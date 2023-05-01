@@ -1,0 +1,1493 @@
+@model flt_VehicleModel.flt_VehicleAddModel
+@{
+    ViewBag.Title = GetResource("Menu.ID.118");
+}
+@section PageHeader{
+    <div class="col-xs-12 col-sm-9 col-md-9 col-lg-9">
+
+    </div>
+    <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
+        <a href="@Url.Action("Index","efs_Home")" class="btn btn-back btn-lg pull-right header-btn">
+            <i class="fa fa-circle-arrow-up fa-chevron-left "></i>
+            @GetResource("Label.Global.Back")
+        </a>
+    </div>
+}
+<!-- widget grid -->
+<section id="widget-grid">
+    <!-- START ROW -->
+
+    <div class="row">
+   
+        <article class="col-sm-12 col-md-12 col-lg-12">
+            <!-- Widget ID (each widget will need unique ID)-->
+            <div class="jarviswidget" id="wid-id-1"
+                 data-widget-colorbutton="false"
+                 data-widget-editbutton="true"
+                 data-widget-deletebutton="false"
+                 data-widget-sortable="false">
+                <header >
+                    <ul id="DetailsActivityTab" class="nav nav-tabs bordered">
+
+                        <li class="active" id="mainTab">
+                            <a href="#Vehicel_Info_Tab" data-toggle="tab" id="AddTap" aria-expanded="true"  >@GetResource("Menu.ID.118") <i class="fa "></i></a>
+                        </li>
+                        <li class="" id="Rental">
+                            <a href="#Rent_Contract_Tab" data-toggle="tab" aria-expanded="false" >@GetResource("Label.Global.ContractsInfo") <i class="fa fa-file-text"></i></a>
+                        </li>
+                        <li class="" id="Loaned">
+                            <a href="#Loan_Contract_Tab" data-toggle="tab" aria-expanded="false"  >@GetResource("Label.Global.ContractsInfo") <i class="fa fa-file-text"></i></a>
+                        </li>
+                        <li class="" id="Owned">
+                            <a hidden href="#Owned_Vehicle_Tab" data-toggle="tab" aria-expanded="false" >@GetResource("Label.Global.Owned") <i class="fa"></i></a>
+                        </li>
+
+
+                    </ul>
+                </header>
+
+                <!-- widget div-->
+                <div>
+                    <!-- widget content -->
+                    <div class="widget-body">
+
+                        @using (Html.BeginForm("Add", "flt_Vehicle", FormMethod.Post, new { @id = "add-form", @class = "", @novalidate = "novalidate", @autocomplete = "off", @enctype = "multipart/form-data" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            @Html.HiddenFor(m=>m.Currency)
+                            <div class="alert alert-danger" style="display: none" id="formHeaderMessage">
+                                @GetResource("Messages.Global.CheckFieldsBox")
+                            </div>
+                            <div id="DetailsActivityTabContent" class="tab-content padding-10">
+                                <div class="tab-pane fade active in" id="Vehicel_Info_Tab">
+
+                                    <fieldset>
+                                        <div class="row">
+                                            <div class="col-sm-12 col-md-4">
+                                                <div class="form-group AlertField">
+                                                    <div>
+                                                        <label class="control-label">
+                                                            @GetResource("Label.Global.PlateNumber")
+                                                        </label>
+                                                        @Html.EditorFor(model => model.Plate_Number, new { htmlAttributes = new { @class = "form-control", @placeholder = @GetResource("Label.Global.PlateNumber") } })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-12 col-md-4">
+                                                <div class="form-group AlertField">
+                                                    <div>
+                                                        <label class="control-label">
+                                                            @GetResource("Label.Global.Office")
+                                                        </label>
+                                                        @Html.DropDownListFor(model => model.Office_ID, Model.OfficeList, new { @class = "select2 ", @id = "ddlOfficeOther" })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-12 col-md-4">
+                                                <div class="form-group AlertField">
+                                                    <div>
+                                                        <label class="control-label">
+                                                            @GetResource("Label.Global.FleetNumber")
+                                                        </label>
+                                                        @Html.EditorFor(model => model.Fleet_Number, new { htmlAttributes = new { @class = "form-control", @placeholder = @GetResource("Label.Global.FleetNumber") } })
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </fieldset>
+                                    <fieldset>
+                                        <div class="row">
+                                            <div class="col-sm-12 col-md-4">
+                                                <div class="form-group AlertField">
+                                                    <div>
+                                                        <label class="control-label">
+                                                            @GetResource("Label.Global.Category")
+                                                        </label>
+                                                        @Html.DropDownListFor(model => model.Category_ID, Model.CategoryList, GetResource("Label.Global.Select"), new { @class = "select2 ", @id = "ddlCategory" })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-12 col-md-4">
+                                                <div class="form-group AlertField">
+                                                    <div>
+                                                        <label class="control-label">
+                                                            @GetResource("Label.Global.Type")
+                                                        </label>
+                                                        @Html.DropDownListFor(model => model.Type_ID, Model.TypeList, GetResource("Label.Global.Select"), new { @class = "select2 ", @id = "ddlCarType" })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-12 col-md-4">
+                                                <div class="form-group AlertField">
+                                                    <div>
+                                                        <label class="control-label">
+                                                            @GetResource("Label.Global.Power")
+                                                        </label>
+                                                        @Html.DropDownListFor(model => model.Power_ID, Model.PowerList, GetResource("Label.Global.Select"), new { @class = "select2 ", @id = "ddlPower", @onchange = "CheckFuel()" })
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </fieldset>
+                                    <fieldset>
+                                        <div class="row">
+                                            <div class="col-sm-12 col-md-4" id="FuelTypeDiv">
+                                                <div class="form-group AlertField">
+                                                    <div>
+                                                        <label class="control-label">
+                                                            @GetResource("Label.Global.FuelType")
+                                                        </label>
+                                                        @Html.DropDownListFor(model => model.Fuel_TypeID, Model.FuelTypeList, GetResource("Label.Global.Select"), new { @class = "select2 ", @id = "ddlFuelType" })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-12 col-md-4">
+                                                <div class="form-group AlertField">
+                                                    <div>
+                                                        <label class="control-label">
+                                                            @GetResource("Label.Global.OwnerShip")
+                                                        </label>
+                                                        @Html.DropDownListFor(model => model.OwnerShip_ID, Model.OwnerShipList, GetResource("Label.Global.Select"), new { @class = "select2 ", @id = "ddlOwnerShip", @onchange = "CheckOwnerShip()" })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-12 col-md-4">
+                                                <div class="form-group AlertField">
+                                                    <div>
+                                                        <label class="control-label">
+                                                            @GetResource("Label.Global.Brand")
+                                                        </label>
+                                                        @Html.EditorFor(model => model.Brand, new { htmlAttributes = new { @class = "form-control",@type= "text",@list="list" ,@placeholder = @GetResource("Label.Global.Brand") } })
+
+                                                         <datalist id="list" class=" ">
+                                                            @foreach (var item in Model.Brands)
+                                                            {
+
+                                                                <option value=@item>@item</option>
+                                                            }
+
+                                                        </datalist>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </fieldset>
+                                    <fieldset>
+                                        <div class="row">
+                                            <div class="col-sm-12 col-md-4">
+                                                <div class="form-group AlertField">
+                                                    <div>
+                                                        <label class="control-label">
+                                                            @GetResource("Label.Global.Model")
+                                                        </label>
+                                                        @Html.EditorFor(model => model.Model, new { htmlAttributes = new { @class = "form-control", @placeholder = @GetResource("Label.Global.Model") } })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-12 col-md-4">
+                                                <div class="form-group AlertField">
+                                                    <div>
+                                                        <label class="control-label">
+                                                            @GetResource("Label.Global.ChassisNumebr")
+                                                        </label>
+                                                        @Html.EditorFor(model => model.Chassis_Number, new { htmlAttributes = new { @class = "form-control", @placeholder = @GetResource("Label.Global.ChassisNumebr") } })
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-12 col-md-4">
+                                                <div class="form-group AlertField">
+                                                    <div>
+                                                        <label class="control-label">
+                                                            @GetResource("Label.Global.EngineNumber")
+                                                        </label>
+                                                        @Html.EditorFor(model => model.Engine_Number, new { htmlAttributes = new { @class = "form-control", @placeholder = @GetResource("Label.Global.EngineNumber") } })
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </fieldset>
+                                    <fieldset>
+                                        <div class="row">
+                                            <div class="col-sm-12 col-md-4">
+                                                <div class="form-group AlertField">
+                                                    <div>
+                                                        <label class="control-label">
+                                                            @GetResource("Label.Global.Year")
+                                                        </label>
+                                                        @Html.EditorFor(model => model.Year, new { htmlAttributes = new { @class = "form-control", @placeholder = @GetResource("Label.Global.Year") } })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-12 col-md-4">
+                                                <div class="form-group AlertField">
+                                                    <div>
+                                                        <label class="control-label">
+                                                            @GetResource("Label.Global.WD")
+                                                        </label>
+                                                        @*@Html.EditorFor(model => model.WD, new { htmlAttributes = new { @class = "form-control", @placeholder = @GetResource("Label.Global.WD") } })*@
+                                                        <select name="WD" id="WD" class="select2">
+                                                            <option value="2">2</option>
+                                                            <option value="4">4</option>
+
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-12 col-md-4">
+                                                <div class="form-group AlertField">
+                                                    <div>
+                                                        <label class="control-label">
+                                                            @GetResource("Label.Global.CC")
+                                                        </label>
+                                                        @Html.EditorFor(model => model.CC, new { htmlAttributes = new { @class = "form-control intTextBox", @placeholder = @GetResource("Label.Global.CC") } })
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </fieldset>
+                                    <fieldset>
+                                        <div class="row">
+                                            @*<div class="col-sm-12 col-md-4">
+                                                <div class="form-group AlertField">
+                                                    <div>
+                                                        <label class="control-label">
+                                                            @GetResource("Label.Global.Allocation")
+                                                        </label>
+                                                        @Html.DropDownListFor(model => model.Allocation_ID, Model.AllocationsList, GetResource("Label.Global.Select"), new { @class = "select2 ", @id = "ddlAllocation" })
+                                                    </div>
+                                                </div>
+                                            </div>*@
+                                            <div class="col-sm-12 col-md-4">
+                                                <div class="form-group AlertField">
+                                                    <div>
+                                                        <label class="control-label">
+                                                            @GetResource("Label.Global.Allocation")
+                                                        </label>
+                                                        @Html.EditorFor(model => model.Allocation_ID, new { htmlAttributes = new { @class = "form-control", @type = "text", @list = "list2", @placeholder = @GetResource("Label.Global.Allocation") } })
+
+                                                        <datalist id="list2" class=" ">
+                                                            @foreach (var item in Model.Allocations)
+                                                            {
+
+                                                                <option value=@item>@item</option>
+                                                            }
+
+                                                        </datalist>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-12 col-md-4">
+                                                <div class="form-group AlertField">
+                                                    <div>
+                                                        <label class="control-label">
+                                                            @GetResource("Label.Global.Unit")
+                                                        </label>
+                                                        @Html.DropDownListFor(model => model.Unit_ID, Model.UnitList, GetResource("Label.Global.Select"), new { @class = "select2 ", @id = "ddlUnit" })
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-12 col-md-4">
+                                                <div class="form-group AlertField">
+                                                    <div>
+                                                        <label class="control-label">
+                                                            @GetResource("Label.Global.Maintenance")
+                                                        </label>
+                                                        @*@Html.EditorFor(model => model.WD, new { htmlAttributes = new { @class = "form-control", @placeholder = @GetResource("Label.Global.WD") } })*@
+                                                        <select name="Is_NRC_Maintenance" id="Is_NRC_Maintenance" class="select2">
+                                                            <option value="1">NRC</option>
+                                                            <option value="0">Rental</option>
+
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                            <div class="col-sm-12 col-md-4">
+                                                <div class="form-group AlertField">
+                                                    <div>
+                                                        <label class="control-label">
+                                                            @GetResource("Label.Global.Service_Interval")
+                                                        </label>
+                                                        @Html.EditorFor(model => model.Service_Interval, new { htmlAttributes = new { @class = "form-control floatTextBox", @placeholder = @GetResource("Label.Global.Service_Interval") } })
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-sm-12 col-md-4">
+                                                <div class="form-group AlertField">
+                                                    <div>
+                                                        <label class="control-label">
+                                                            @GetResource("Label.Global.Fuel")
+                                                        </label>
+                                                        @*@Html.EditorFor(model => model.WD, new { htmlAttributes = new { @class = "form-control", @placeholder = @GetResource("Label.Global.WD") } })*@
+                                                        <select name="Is_NRC_Fuel" id="Is_NRC_Fuel" class="select2">
+                                                            <option value="1">NRC</option>
+                                                            <option value="0">Rental</option>
+
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </fieldset>
+                                    <fieldset>
+                                        <div class="row">
+                                            <div class="col-sm-12 col-md-4">
+                                                <div class="form-group AlertField">
+                                                    <div>
+                                                        <label class="control-label">
+                                                            @GetResource("Label.Global.Driver")
+                                                        </label>
+                                                        @Html.DropDownListFor(model => model.Driver_ID, Model.DriversList, GetResource("Label.Global.Select"), new { @class = "select2 ", @id = "ddlDriver" })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-12 col-md-4">
+                                                <div class="form-group AlertField">
+                                                    <div>
+                                                        <label class="control-label">
+                                                            @GetResource("Label.Global.Expected_Consumption")
+                                                        </label>
+                                                        @Html.EditorFor(model => model.Expected_Consumption, new { htmlAttributes = new { @class = "form-control", @placeholder = @GetResource("Label.Global.Expected_Consumption") } })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-12 col-md-2">
+                                                <div class="form-group">
+                                                    <label class="control-label ">@GetResource("Label.Global.Photo")</label>
+
+                                                    @Html.TextBoxFor(model => model.Image, "file", new { @class = "form-control custom-file-input", type = "file", accept = "image/*", @onchange = "loadFile(event)" })
+
+                                                </div>
+
+                                            </div>
+                                            <div class="col-sm-12 col-md-2">
+                                                <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+                                                <img id="imgPreview" style="width: 80px;margin-top: 13px;" />
+                                            </div>
+
+
+                                        </div>
+                                    </fieldset>
+                             
+
+                                    <fieldset>
+                                        <div class="row">
+                                            <div class="col-sm-12 col-md-3">
+                                                <div class="form-group">
+                                                    <label class="control-label">@GetResource("Label.Global.Active")</label>
+                                                    <label class="checkbox-inline d-block ">
+
+                                                        @Html.CheckBoxFor(model => model.IsActive, new { @class = "checkbox" })
+                                                        <span>&nbsp;</span>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-12 col-md-3">
+                                                <div class="form-group">
+                                                    <label class="control-label">@GetResource("Label.Global.GeneratorODO")</label>
+                                                    <label class="checkbox-inline d-block ">
+
+                                                        @Html.CheckBoxFor(model => model.IsGenerator_ODO, new { @class = "checkbox" })
+                                                        <span>&nbsp;</span>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </fieldset>
+                                </div>
+
+                                <div class="tab-pane fade in" id="Owned_Vehicle_Tab">
+                                    <fieldset>
+                                        <div class="row">
+                                            <div class="col-sm-12 col-md-4">
+                                                <div class="form-group AlertField">
+                                                    <div>
+                                                        <label class="control-label">
+                                                            @GetResource("Label.Global.StartDate")
+                                                        </label>
+                                                        @Html.EditorFor(model => model.Owned_StartDate, new { htmlAttributes = new { @class = "form-control StartDate", @placeholder = @GetResource("Label.Global.StartDate") } })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-12 col-md-4">
+                                                <div class="form-group AlertField">
+                                                    <div>
+                                                        <label class="control-label">
+                                                            @GetResource("Label.Global.EndDate")
+                                                        </label>
+                                                        @Html.EditorFor(model => model.Owned_EndDate, new { htmlAttributes = new { @class = "form-control EndDate", @placeholder = @GetResource("Label.Global.EndDate") } })
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-12 col-md-4">
+                                                <div class="form-group AlertField">
+                                                    <div>
+                                                        <label class="control-label">
+                                                            @GetResource("Label.Global.StartODO")
+                                                        </label>
+                                                        @Html.EditorFor(model => model.Owned_Start_ODO, new { htmlAttributes = new { @class = "form-control", @placeholder = @GetResource("Label.Global.StartODO") } })
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </fieldset>
+
+                                    <fieldset>
+                                        <div class="row">
+                                            <div class="col-sm-12 col-md-4">
+                                                <div class="form-group AlertField">
+                                                    <div>
+                                                        <label class="control-label">
+                                                            @GetResource("Label.Global.EndODO")
+                                                        </label>
+                                                        @Html.EditorFor(model => model.Owned_End_ODO, new { htmlAttributes = new { @class = "form-control", @placeholder = @GetResource("Label.Global.EndODO") } })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-12 col-md-4">
+                                                <div class="form-group AlertField">
+                                                    <div>
+                                                        <label class="control-label">
+                                                            @GetResource("Label.Global.Donor")
+                                                        </label>
+                                                        @Html.EditorFor(model => model.Owned_Donor, new { htmlAttributes = new { @class = "form-control", @placeholder = @GetResource("Label.Global.Donor") } })
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-12 col-md-4">
+                                                <div class="form-group AlertField">
+                                                    <div>
+                                                        <label class="control-label">
+                                                            @GetResource("Label.Global.BudgetCode")
+                                                        </label>
+                                                        @Html.EditorFor(model => model.Owned_Budget_Code, new { htmlAttributes = new { @class = "form-control", @placeholder = @GetResource("Label.Global.BudgetCode") } })
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </fieldset>
+                                    <fieldset>
+                                        <div class="row">
+                                            <div class="col-sm-12 col-md-4">
+                                                <div class="form-group AlertField">
+                                                    <div>
+                                                        <label class="control-label">
+                                                            @GetResource("Label.Global.Purchase_Price")
+                                                        </label>
+                                                        @Html.EditorFor(model => model.Purchase_Price, new { htmlAttributes = new { @class = "form-control", @placeholder = @GetResource("Label.Global.Purchase_Price") } })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-12 col-md-4">
+                                                <div class="form-group AlertField">
+                                                    <div>
+                                                        <label class="control-label">
+                                                            @GetResource("Label.Global.AssetNumber")
+                                                        </label>
+                                                        @Html.EditorFor(model => model.AssetNumber, new { htmlAttributes = new { @class = "form-control", @placeholder = @GetResource("Label.Global.AssetNumber") } })
+
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </fieldset>
+
+
+                                </div>
+                                @*Renatl Div*@
+                                <div class="tab-pane fade in" id="Rent_Contract_Tab">
+                                    <fieldset>
+                                        <div class="row">
+                                            <fieldset>
+                                                <div class="row">
+                                                    @*<div class="col-sm-12 col-md-4">
+                                                        <div class="form-group AlertField">
+                                                            <div>
+                                                                <label class="control-label">
+                                                                    @GetResource("Label.Global.RentCompany")
+                                                                </label>
+                                                                @Html.DropDownListFor(model => model.RentCompany_ID, Model.RentCompanyList, GetResource("Label.Global.Select"), new { @class = "select2 ", @id = "ddlCompany" })
+                                                            </div>
+                                                        </div>
+                                                    </div>*@
+                                                    <div class="col-sm-12 col-md-4">
+                                                        <div class="form-group AlertField">
+                                                            <div>
+                                                                <label class="control-label">
+                                                                    @GetResource("Label.Global.RentCompany")
+                                                                </label>
+                                                                @Html.EditorFor(model => model.RentCompany_ID, new { htmlAttributes = new { @class = "form-control", @type = "text", @list = "list3", @placeholder = @GetResource("Label.Global.RentCompany") } })
+
+                                                                <datalist id="list3" class=" ">
+                                                                    @foreach (var item in Model.RentCompanies)
+                                                                    {
+
+                                                                        <option value=@item>@item</option>
+                                                                    }
+
+                                                                </datalist>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-12 col-md-4">
+                                                        <div class="form-group AlertField">
+                                                            <div>
+                                                                <label class="control-label">
+                                                                    @GetResource("Label.Global.RentalType")
+                                                                </label>
+                                                                @Html.DropDownListFor(model => model.Rent_TypeID, Model.RentTypeList, new { @class = "select2 ", @id = "ddlRentType", @onchange = "ChangeCurrencyLabelPerType()" })
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-12 col-md-4">
+                                                        <div class="form-group AlertField">
+                                                            <div>
+                                                                <label class="control-label CurrencyLabel">
+                                                                    @GetResource("Label.Global.CUR/Type")
+
+                                                                </label>
+                                                                @Html.EditorFor(model => model.RentPrice, new { htmlAttributes = new { @class = "form-control", @placeholder = @GetResource("Label.Global.Amount") } })
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </fieldset>
+                                            <fieldset>
+                                                <div class="row">
+                                                    <div class="col-sm-12 col-md-4">
+                                                        <div class="form-group AlertField">
+                                                            <div>
+                                                                <label class="control-label">
+                                                                    @GetResource("Label.Global.StartDate")
+                                                                </label>
+                                                                @Html.EditorFor(model => model.StartDate, new { htmlAttributes = new { @class = "form-control StartDate", @placeholder = @GetResource("Label.Global.StartDate") } })
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-12 col-md-4">
+                                                        <div class="form-group AlertField">
+                                                            <div>
+                                                                <label class="control-label">
+                                                                    @GetResource("Label.Global.EndDate")
+                                                                </label>
+                                                                @Html.EditorFor(model => model.EndDate, new { htmlAttributes = new { @class = "form-control EndDate", @placeholder = @GetResource("Label.Global.EndDate") } })
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-12 col-md-4">
+                                                        <div class="form-group AlertField">
+                                                            <div>
+                                                                <label class="control-label">
+                                                                    @GetResource("Label.Global.StartODO")
+                                                                </label>
+                                                                @Html.EditorFor(model => model.Start_ODO, new { htmlAttributes = new { @class = "form-control", @placeholder = @GetResource("Label.Global.StartODO"), @autocomplete = "off" } })
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </fieldset>
+
+                                            <fieldset>
+                                                <div class="row">
+                                                    <div class="col-sm-12 col-md-4">
+                                                        <div class="form-group AlertField">
+                                                            <div>
+                                                                <label class="control-label">
+                                                                    @GetResource("Label.Global.EndODO")
+                                                                </label>
+                                                                @Html.EditorFor(model => model.End_ODO, new { htmlAttributes = new { @class = "form-control", @placeholder = @GetResource("Label.Global.EndODO"), @autocomplete = "off" } })
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-12 col-md-4">
+                                                        <div class="form-group AlertField">
+                                                            <div>
+                                                                <label class="control-label">
+                                                                    @GetResource("Label.Global.Donor")
+                                                                </label>
+                                                                @Html.EditorFor(model => model.Donor_ID, new { htmlAttributes = new { @class = "form-control", @placeholder = @GetResource("Label.Global.Donor") } })
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-12 col-md-4">
+                                                        <div class="form-group AlertField">
+                                                            <div>
+                                                                <label class="control-label">
+                                                                    @GetResource("Label.Global.BudgetCode")
+                                                                </label>
+                                                                @Html.EditorFor(model => model.Budget_Code, new { htmlAttributes = new { @class = "form-control", @placeholder = @GetResource("Label.Global.BudgetCode") } })
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </fieldset>
+
+
+                                            <fieldset>
+
+                                                <div>
+                                                    <button type="button" onclick="AddToTable()" class="pull-right btn btn-default txt-color-green btn-sm margin-top-0 margin-bottom-10">
+                                                        <i class="fa fa-circle-arrow-up fa-plus fa-lg">@GetResource("Label.Global.AddContract")</i>
+                                                    </button>
+
+                                                    <table id="tbl_Data" class="table table-striped table-bordered" width="100%">
+                                                        <thead>
+                                                            <tr>
+                                                                <th style="width:10%">@GetResource("Label.Global.RentCompany")  </th>
+                                                                <th style="width:10%">@GetResource("Label.Global.RentalType")  </th>
+                                                                <th style="width:10%" class="CurrencyLabel">@GetResource("Label.Global.CUR/Type")  </th>
+                                                                <th style="width:10%">@GetResource("Label.Global.StartDate")  </th>
+                                                                <th style="width:10%">@GetResource("Label.Global.EndDate")  </th>
+                                                                <th style="width:10%">@GetResource("Label.Global.StartODO")  </th>
+                                                                <th style="width:10%">@GetResource("Label.Global.EndODO")  </th>
+                                                                <th style="width:10%">@GetResource("Label.Global.Donor")  </th>
+                                                                <th style="width:10%">@GetResource("Label.Global.BudgetCode")  </th>
+
+                                                                <th style="width:20%">&nbsp;</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody> </tbody>
+                                                    </table>
+                                                    @Html.HiddenFor(m => m.ListContractDetails, new { @id = "hdfListDetails" })
+
+                                                </div>
+                                            </fieldset>
+
+                                        </div>
+                                    </fieldset>
+                                </div>
+
+
+
+
+
+                                @*Loaned Div*@
+                                <div class="tab-pane fade in" id="Loan_Contract_Tab">
+                                    <fieldset>
+                                        <div class="row">
+                                            <fieldset>
+                                                <div class="row">
+                                                    @*<div class="col-sm-12 col-md-4">
+                                                        <div class="form-group AlertField">
+                                                            <div>
+                                                                <label class="control-label">
+                                                                    @GetResource("Label.Global.LoanCompany")
+                                                                </label>
+                                                                @Html.DropDownListFor(model => model.RentCompany_ID, Model.RentCompanyList, GetResource("Label.Global.Select"), new { @class = "select2 ", @id = "ddlCompany_loan" })
+                                                            </div>
+                                                        </div>
+                                                    </div>*@
+                                                    <div class="col-sm-12 col-md-4">
+                                                        <div class="form-group AlertField">
+                                                            <div>
+                                                                <label class="control-label">
+                                                                    @GetResource("Label.Global.LoanCompany")
+                                                                </label>
+                                                                @Html.EditorFor(model => model.RentCompany_ID, new { htmlAttributes = new { @class = "form-control",@id= "ddlCompany_loan", @type = "text", @list = "list3", @placeholder = @GetResource("Label.Global.LoanCompany") } })
+
+                                                                <datalist id="list3" class=" ">
+                                                                    @foreach (var item in Model.RentCompanies)
+                                                                    {
+
+                                                                        <option value=@item>@item</option>
+                                                                    }
+
+                                                                </datalist>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+
+                                                </div>
+                                            </fieldset>
+                                            <fieldset>
+                                                <div class="row">
+                                                    <div class="col-sm-12 col-md-4">
+                                                        <div class="form-group AlertField">
+                                                            <div>
+                                                                <label class="control-label">
+                                                                    @GetResource("Label.Global.StartDate")
+                                                                </label>
+                                                                @Html.EditorFor(model => model.StartDate, new { htmlAttributes = new { @class = "form-control StartDate", @id= "StartDate_loan", @placeholder = @GetResource("Label.Global.StartDate") } })
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-12 col-md-4">
+                                                        <div class="form-group AlertField">
+                                                            <div>
+                                                                <label class="control-label">
+                                                                    @GetResource("Label.Global.EndDate")
+                                                                </label>
+                                                                @Html.EditorFor(model => model.EndDate, new { htmlAttributes = new { @class = "form-control EndDate",@id= "EndDate_loan" ,@placeholder = @GetResource("Label.Global.EndDate") } })
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-12 col-md-4">
+                                                        <div class="form-group AlertField">
+                                                            <div>
+                                                                <label class="control-label">
+                                                                    @GetResource("Label.Global.StartODO")
+                                                                </label>
+                                                                @Html.EditorFor(model => model.Start_ODO, new { htmlAttributes = new { @class = "form-control",@id= "Start_ODO_loan", @placeholder = @GetResource("Label.Global.StartODO") } })
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </fieldset>
+
+                                            <fieldset>
+                                                <div class="row">
+                                                    <div class="col-sm-12 col-md-4">
+                                                        <div class="form-group AlertField">
+                                                            <div>
+                                                                <label class="control-label">
+                                                                    @GetResource("Label.Global.EndODO")
+                                                                </label>
+                                                                @Html.EditorFor(model => model.End_ODO, new { htmlAttributes = new { @class = "form-control", @id = "End_ODO_loan", @placeholder = @GetResource("Label.Global.EndODO") } })
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-12 col-md-4">
+                                                        <div class="form-group AlertField">
+                                                            <div>
+                                                                <label class="control-label">
+                                                                    @GetResource("Label.Global.Donor")
+                                                                </label>
+                                                                @Html.EditorFor(model => model.Donor_ID, new { htmlAttributes = new { @class = "form-control", @id = "Donor_ID_loan", @placeholder = @GetResource("Label.Global.Donor") } })
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-12 col-md-4">
+                                                        <div class="form-group AlertField">
+                                                            <div>
+                                                                <label class="control-label">
+                                                                    @GetResource("Label.Global.BudgetCode")
+                                                                </label>
+                                                                @Html.EditorFor(model => model.Budget_Code, new { htmlAttributes = new { @class = "form-control", @id = "Budget_Code_loan", @placeholder = @GetResource("Label.Global.BudgetCode") } })
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </fieldset>
+
+
+                                            <fieldset>
+
+                                                <div>
+                                                    <button type="button" onclick="AddToLoanTable()" class="pull-right btn btn-default txt-color-green btn-sm margin-top-0 margin-bottom-10">
+                                                        <i class="fa fa-circle-arrow-up fa-plus fa-lg">@GetResource("Label.Global.AddRecord")</i>
+                                                    </button>
+
+                                                    <table id="tbl_Data_Loan" class="table table-striped table-bordered" width="100%">
+                                                        <thead>
+                                                            <tr>
+                                                                <th style="width:10%">@GetResource("Label.Global.LoanCompany")  </th>
+                                                                <th style="width:10%">@GetResource("Label.Global.StartDate")  </th>
+                                                                <th style="width:10%">@GetResource("Label.Global.EndDate")  </th>
+                                                                <th style="width:10%">@GetResource("Label.Global.StartODO")  </th>
+                                                                <th style="width:10%">@GetResource("Label.Global.EndODO")  </th>
+                                                                <th style="width:10%">@GetResource("Label.Global.Donor")  </th>
+                                                                <th style="width:10%">@GetResource("Label.Global.BudgetCode")  </th>
+
+                                                                <th style="width:20%">&nbsp;</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody> </tbody>
+                                                    </table>
+                                                    @Html.HiddenFor(m => m.ListContractLoanDetails, new { @id = "hdfListLoanDetails" })
+
+                                                </div>
+                                            </fieldset>
+
+                                        </div>
+                                    </fieldset>
+                                </div>
+
+
+                            </div>
+                            <footer>
+                                <button  type="submit" class="btn btn-primary" id="AddButton" >
+                                    @GetResource("Label.Global.Add")
+                                </button>
+                            </footer>
+                        }
+
+                    </div>
+                    <!-- end widget content -->
+
+                </div>
+                <!-- end widget div -->
+
+            </div>
+            <!-- end widget -->
+        </article>
+
+    </div>
+
+    <!-- END ROW -->
+
+
+
+</section>
+<!-- end widget grid -->
+
+@section pagespecific{
+
+    <script type="text/javascript">
+        document.getElementById("Rental").style.display = "none";
+        document.getElementById("Owned").style.display = "none";
+        document.getElementById("Loaned").style.display = "none";
+
+        // DO NOT REMOVE : GLOBAL FUNCTIONS!
+
+        $(document).ready(function () {
+
+            new AutoNumeric('#Start_ODO_loan', AutoNumeric.getPredefinedOptions().integerPos);
+            new AutoNumeric('#End_ODO_loan', AutoNumeric.getPredefinedOptions().integerPos);
+            new AutoNumeric('#End_ODO', AutoNumeric.getPredefinedOptions().integerPos);
+            new AutoNumeric('#Start_ODO', AutoNumeric.getPredefinedOptions().integerPos);
+            new AutoNumeric('#Owned_Start_ODO', AutoNumeric.getPredefinedOptions().integerPos);
+            new AutoNumeric('#Owned_End_ODO', AutoNumeric.getPredefinedOptions().integerPos);
+
+
+
+              $('.StartDate').datepicker({
+
+                dateFormat: 'dd/mm/yy',
+
+
+                prevText: '<i class="fa fa-chevron-left"></i>',
+
+                nextText: '<i class="fa fa-chevron-right"></i>',
+
+
+            });
+
+            $('.EndDate').datepicker({
+
+                dateFormat: "dd/mm/yy",
+
+
+                prevText: '<i class="fa fa-chevron-left"></i>',
+
+                nextText: '<i class="fa fa-chevron-right"></i>',
+
+
+            });
+
+
+            $('#Image').change(function () {
+                const file = this.files[0];
+                console.log(file);
+                if (file) {
+                    let reader = new FileReader();
+                    reader.onload = function (event) {
+                        console.log(event.target.result);
+                        $('#imgPreview').attr('src', event.target.result);
+                    }
+                    reader.readAsDataURL(file);
+                }
+            });
+            pageSetUp();
+
+            $('#add-form').bootstrapValidator({
+
+                feedbackIcons: {
+                    valid: 'glyphicon glyphicon-ok',
+                    invalid: 'glyphicon glyphicon-remove',
+                    validating: 'glyphicon glyphicon-refresh'
+                },
+                fields: {
+                    Plate_Number: { validators: { notEmpty: { message: '@GetResource("Validations.Global.RequiredField")' }, stringLength: { message: '@GetResource("Validations.Global.MaxLengthField")', max: 12 } } },
+                    Engine_Number: { validators: { notEmpty: { message: '@GetResource("Validations.Global.RequiredField")' }, stringLength: { message: '@GetResource("Validations.Global.MaxLengthField")', max: 21 } } },
+                    Chassis_Number: { validators: { notEmpty: { message: '@GetResource("Validations.Global.RequiredField")' }, stringLength: { message: '@GetResource("Validations.Global.MaxLengthField")', max: 21 } } },
+                    Service_Interval: { validators: { notEmpty: { message: '@GetResource("Validations.Global.RequiredField")' } } },
+                    CC: { validators: { notEmpty: { message: '@GetResource("Validations.Global.RequiredField")' } } },
+                    Year: { validators: { notEmpty: { message: '@GetResource("Validations.Global.RequiredField")' } } },
+                    Model: { validators: { notEmpty: { message: '@GetResource("Validations.Global.RequiredField")' } } },
+                    ddlCategory: { selector: '#ddlCategory', validators: { notEmpty: { message: '@GetResource("Validations.Global.RequiredField")' } } },
+                    ddlCarType: { selector: '#ddlCarType', validators: { notEmpty: { message: '@GetResource("Validations.Global.RequiredField")' } } },
+                    ddlPower: { selector: '#ddlPower', validators: { notEmpty: { message: '@GetResource("Validations.Global.RequiredField")' } } },
+                    ddlFuelType: { selector: '#ddlFuelType', validators: { notEmpty: { message: '@GetResource("Validations.Global.RequiredField")' } } },
+                    ddlOwnerShip: { selector: '#ddlOwnerShip', validators: { notEmpty: { message: '@GetResource("Validations.Global.RequiredField")' } } },
+                    ddlBrand: { selector: '#ddlBrand', validators: { notEmpty: { message: '@GetResource("Validations.Global.RequiredField")' } } },
+                    ddlModel: { selector: '#ddlModel', validators: { notEmpty: { message: '@GetResource("Validations.Global.RequiredField")' } } },
+                    ddlDriver: { selector: '#ddlDriver', validators: { notEmpty: { message: '@GetResource("Validations.Global.RequiredField")' } } },
+                    ddlUnit: { selector: '#ddlUnit', validators: { notEmpty: { message: '@GetResource("Validations.Global.RequiredField")' } } },
+                    ddlAllocation: { selector: '#ddlAllocation', validators: { notEmpty: { message: '@GetResource("Validations.Global.RequiredField")' } } },
+                    Is_NRC_Fuel: { selector: '#Is_NRC_Fuel', validators: { notEmpty: { message: '@GetResource("Validations.Global.RequiredField")' } } },
+                    Is_NRC_Maintenance: { selector: '#Is_NRC_Maintenance', validators: { notEmpty: { message: '@GetResource("Validations.Global.RequiredField")' } } },
+                    //ddlOffice: { selector: '#ddlOffice', validators: { notEmpty: { message: '@GetResource("Validations.Global.RequiredField")' } } },
+
+
+                }
+            })
+            .on('error.form.bv', function (e) {
+                $('#formHeaderMessage').show();
+            })
+            .on('success.form.bv', function (e) {
+                $('#formHeaderMessage').hide();
+            })
+            .on('error.field.bv', function (e, data) {
+                $('#formHeaderMessage').show();
+            });
+
+
+
+            //Contracts Table
+
+            var responsiveHelper_tbl_Data = undefined;
+            var breakpointDefinition = {
+                tablet: 1024,
+                phone: 480
+            };
+
+            var otable = $('#tbl_Data').DataTable({
+                "language": {
+                    "lengthMenu": "@GetResource("Setting.Datatables.Languages.lengthMenu")",
+                    "zeroRecords": "@GetResource("Setting.Datatables.Languages.zeroRecords")",
+                    "info": "@GetResource("Setting.Datatables.Languages.info")",
+                    "infoEmpty": "@GetResource("Setting.Datatables.Languages.infoEmpty")",
+                    "infoFiltered": "@GetResource("Setting.Datatables.Languages.infoFiltered")",
+                    "oPaginate": {
+                        "sFirst": "@GetResource("Setting.Datatables.Languages.Paginate.First")",
+                        "sPrevious": "@GetResource("Setting.Datatables.Languages.Paginate.Previous")",
+                        "sNext": "@GetResource("Setting.Datatables.Languages.Paginate.Next")",
+                        "sLast": "@GetResource("Setting.Datatables.Languages.Paginate.Last")"
+                    }
+                },
+                aoColumns: [
+                    { mData: 'rentCompany' },
+                    { mData: 'rent_type' },
+                    { mData: 'rentPrice' },
+                    { mData: 'startDate' },
+                    { mData: 'endDate' },
+                    { mData: 'start_oDO' },
+                    { mData: 'end_oDO' },
+                    { mData: 'donor' },
+                    { mData: 'budget_code' },
+
+                ],
+
+                "columnDefs": [
+                    {
+                        orderable: false,
+                        targets: 9,
+                        render: function (o, v, row) {   // o, v contains the object and value for the column
+                            var tdHtml = '';
+                            tdHtml += '<button class="hidden hidden-delete"></button>';
+                            tdHtml += '<button onclick="DeleteContract(this,event);return false;" data-id="" title="@GetResource("Label.Global.Delete")" class="btn btn-default txt-color-red"><i class="fa fa-trash-o fa-lg"></i></button>';
+
+                            return tdHtml;
+                        }
+                    },
+
+                ]
+                ,
+
+                "sDom": "@Html.Raw(datatableDom)",
+                buttons: [
+                    'copyHtml5',
+                    'excelHtml5',
+                    'csvHtml5',
+                    'pdfHtml5',
+                    'print'
+                ]
+                ,
+                "autoWidth": true,
+                "preDrawCallback": function () {
+                    // Initialize the responsive datatables helper once.
+                    if (!responsiveHelper_tbl_Data) {
+                        responsiveHelper_tbl_Data = new ResponsiveDatatablesHelper($('#tbl_Data'), breakpointDefinition);
+                    }
+                },
+                "rowCallback": function (nRow) {
+                    responsiveHelper_tbl_Data.createExpandIcon(nRow);
+                },
+                "drawCallback": function (oSettings) {
+                    responsiveHelper_tbl_Data.respond();
+                }
+
+            });
+
+
+
+
+
+            $('#tbl_Data tbody').on('click', '.hidden-delete', function () {
+                var nRow = $(this).parents('tr')[0];
+                otable.row(nRow).remove().draw(false);
+            });
+            // custom toolbar
+            //$("#tbl_Data_wrapper div.toolbar").html('<div class="text-left">' + ($('.tableStoreLoading_BtnsHeader').html() || "") + '</div>');
+
+            // Apply the filter
+            $("#tbl_Data thead th input[type=text]").on('keyup change', function () {
+                otable
+                    .column($(this).parent().index() + ':visible')
+                    .search(this.value)
+                    .draw();
+            });
+
+
+
+
+            /* Loaned Contract Info */
+            var responsiveHelper_tbl_Data_loan = undefined;
+            var breakpointDefinition = {
+                tablet: 1024,
+                phone: 480
+            };
+
+            var otable_loan = $('#tbl_Data_Loan').DataTable({
+                "language": {
+                    "lengthMenu": "@GetResource("Setting.Datatables.Languages.lengthMenu")",
+                    "zeroRecords": "@GetResource("Setting.Datatables.Languages.zeroRecords")",
+                    "info": "@GetResource("Setting.Datatables.Languages.info")",
+                    "infoEmpty": "@GetResource("Setting.Datatables.Languages.infoEmpty")",
+                    "infoFiltered": "@GetResource("Setting.Datatables.Languages.infoFiltered")",
+                    "oPaginate": {
+                        "sFirst": "@GetResource("Setting.Datatables.Languages.Paginate.First")",
+                        "sPrevious": "@GetResource("Setting.Datatables.Languages.Paginate.Previous")",
+                        "sNext": "@GetResource("Setting.Datatables.Languages.Paginate.Next")",
+                        "sLast": "@GetResource("Setting.Datatables.Languages.Paginate.Last")"
+                    }
+                },
+                aoColumns: [
+                    { mData: 'rentCompany' },
+                    { mData: 'startDate' },
+                    { mData: 'endDate' },
+                    { mData: 'start_oDO' },
+                    { mData: 'end_oDO' },
+                    { mData: 'donor' },
+                    { mData: 'budget_code' },
+
+                ],
+
+                "columnDefs": [
+                    {
+                        orderable: false,
+                        targets: 7,
+                        render: function (o, v, row) {   // o, v contains the object and value for the column
+                            var tdHtml = '';
+                            tdHtml += '<button class="hidden hidden-delete"></button>';
+                            tdHtml += '<button onclick="DeleteContract(this,event);return false;" data-id="" title="@GetResource("Label.Global.Delete")" class="btn btn-default txt-color-red"><i class="fa fa-trash-o fa-lg"></i></button>';
+
+                            return tdHtml;
+                        }
+                    },
+
+                ]
+                ,
+
+                "sDom": "@Html.Raw(datatableDom)",
+                buttons: [
+                    'copyHtml5',
+                    'excelHtml5',
+                    'csvHtml5',
+                    'pdfHtml5',
+                    'print'
+                ]
+                ,
+                "autoWidth": true,
+                "preDrawCallback": function () {
+                    // Initialize the responsive datatables helper once.
+                    if (!responsiveHelper_tbl_Data_loan) {
+                        responsiveHelper_tbl_Data_loan = new ResponsiveDatatablesHelper($('#tbl_Data_Loan'), breakpointDefinition);
+                    }
+                },
+                "rowCallback": function (nRow) {
+                    responsiveHelper_tbl_Data_loan.createExpandIcon(nRow);
+                },
+                "drawCallback": function (oSettings) {
+                    responsiveHelper_tbl_Data_loan.respond();
+                }
+
+            });
+
+            $('#tbl_Data_Loan tbody').on('click', '.hidden-delete', function () {
+                var nRow = $(this).parents('tr')[0];
+                otable_loan.row(nRow).remove().draw(false);
+            });
+            // custom toolbar
+            //$("#tbl_Data_wrapper div.toolbar").html('<div class="text-left">' + ($('.tableStoreLoading_BtnsHeader').html() || "") + '</div>');
+
+            // Apply the filter
+            $("#tbl_Data_Loan thead th input[type=text]").on('keyup change', function () {
+                otable_loan
+                    .column($(this).parent().index() + ':visible')
+                    .search(this.value)
+                    .draw();
+            });
+
+
+            //if ($('#mainTab').hasClass('active')) {
+            //    $('#AddButton').hide();
+            //}
+
+
+
+            //// check if any tab other than main is active
+            //$('#DetailsActivityTab li').not('#mainTab').click(function () {
+            //    // show the AddButton
+            //    $('#AddButton').show();
+            //});
+
+
+
+
+
+           CheckOwnerShip();
+            /* END COLUMN FILTER */
+            ChangeCurrencyLabelPerType();
+
+
+
+
+        });
+
+        //function hidebutton() {
+        //    $('#AddButton').hide();
+        //}
+        //function showbutton() {
+        //    $('#AddButton').show();
+        //}
+
+
+            $('#add-form').submit(function (e) {
+               // e.preventDefault;
+                $('button[type="submit"]').prop('disabled', true);
+                $("#AddTap").click();
+
+                var myvalue = $('#add-form').bootstrapValidator('validate').isValid();
+                if (myvalue == false) {
+                    e.preventDefault(); // prevent form submission
+                    $('button[type="submit"]').prop('disabled', false); // Re-enable submit button
+                }
+                else {
+
+
+                var OwnerShip = $('#ddlOwnerShip').val();
+                if (OwnerShip == 3 ) {
+                    var ContractData = $('#tbl_Data').dataTable().fnGetData();
+                    if (ContractData.length == 0 ) {
+
+                        showSmallBoxMsg('@GetResource("Menu.ID.118")' ,'@GetResource("Label.Validation.PleaseFillContractInfo")',AlertStatusEnum.Failed);
+
+                        return false;
+                    }
+                    $('#add-form #hdfListDetails').val(JSON.stringify(ContractData));
+                }
+                if (OwnerShip == 4) {
+                    var ContractData = $('#tbl_Data_Loan').dataTable().fnGetData();
+
+                    if (ContractData.length == 0) {
+                        showSmallBoxMsg('@GetResource("Menu.ID.118")' ,'@GetResource("Label.Validation.PleaseFillContractInfo")',AlertStatusEnum.Failed);
+
+                        return false;
+                    }
+                    $('#add-form #hdfListDetails').val(JSON.stringify(ContractData));
+
+                }
+                if (OwnerShip == 2) {
+                    if (
+                       ( ($('#Owned_StartDate').val() || -1) == -1) ||
+                       // (($('#Owned_EndDate').val() || -1) == -1) ||
+                         (($('#Owned_Start_ODO').val() || -1) == -1) ||
+                       // (($('#Owned_End_ODO').val() || -1) == -1) ||
+                       // (($('#Owned_Donor').val() || -1) == -1) ||
+                       // (($('#Owned_Budget_Code').val() || -1) == -1) ||
+                        (($('#Purchase_Price').val() || -1) == -1) ||
+                        (($('#AssetNumber').val() || -1) == -1)
+                    ) {
+                        showSmallBoxMsg('@GetResource("Menu.ID.118")' ,'@GetResource("Label.Validation.PleaseFillOwnedInfo")' ,AlertStatusEnum.Failed);
+
+                        return false;
+                    }
+
+                    }
+                }
+            });
+
+
+          function AddToTable() {
+
+              var Company = $('#RentCompany_ID').val() || "";
+              var RnetalType = $("#ddlRentType").children(':selected').text() || "";
+            var Cur = $("#RentPrice").val() || "";
+            var StartDate = $("#StartDate").val() || "";
+            var EndDate = $("#EndDate").val() || "";
+            var StartODO = $("#Start_ODO").val() ||"";
+            var EndODO = $("#End_ODO").val() || "";
+            var Donor = $("#Donor_ID").val() ||"";
+            var BudgetCode = $("#Budget_Code").val() || "";
+            var CompanyID = $("#ddlCompany").val() || "";
+            var rentTypeID = $("#ddlRentType").val() || "";
+              if (Company == "" || RnetalType == "" || StartDate == "" || EndDate == "" || StartODO == ""  || Donor == "" || BudgetCode=="") {
+
+                  return;
+              }
+
+            $('#tbl_Data').dataTable().fnAddData({
+                "rentCompany": Company,
+                "rent_type": RnetalType,
+                "rentPrice":Cur,
+                "startDate": StartDate,
+                "endDate": EndDate,
+                "start_oDO": StartODO,
+                "end_oDO": EndODO,
+                "donor": Donor,
+                "budget_code": BudgetCode,
+                "rent_companyID": CompanyID,
+                "rent_typeID": rentTypeID,
+            });
+              $('#add-form #RentCompany_ID').val('');
+            $('#add-form #ddlRentType').val('');
+            $('#add-form #RentPrice').val('');
+            $('#add-form #StartDate').val('');
+            $('#add-form #EndDate').val('');
+            $('#add-form #End_ODO').val("");
+            $('#add-form #Start_ODO').val("");
+            $('#add-form #Donor_ID').val('');
+            $('#add-form #Budget_Code').val('');
+
+
+        }
+         function DeleteContract(eleVar, event) {
+            $.SmartMessageBox({
+                title: "@GetResource("Message.Gobal.Alert")",
+                content: "@GetResource("Message.Gobal.DeleteAlert")",
+                buttons: '[@GetResource("Label.Global.No")][@GetResource("Label.Global.Yes")]'
+            }, function (ButtonPressed) {
+                if (ButtonPressed === "@GetResource("Label.Global.Yes")") {
+                    var msg = '@GetResource("Messages.Global.DeleteSuccess")';
+                    var id = $(eleVar).attr('data-id');
+                 //showSmallBoxMsg('@GetResource("Menu.ID.118")',msg,@((int)AlertStatus.Success));
+
+                    $(eleVar).parent().find('.hidden-delete').click();
+
+                    return;
+
+                }
+                if (ButtonPressed === "@GetResource("Label.Global.No")") {
+                    return;
+                }
+            });
+            event.preventDefault();
+        }
+
+        function AddToLoanTable() {
+
+            var Company = $('#ddlCompany_loan').val()||""
+            var StartDate = $("#StartDate_loan").val() || "";
+            var EndDate = $("#EndDate_loan").val() || "";
+            var StartODO = $("#Start_ODO_loan").val() ||"";
+            var EndODO = $("#End_ODO_loan").val() || "";
+            var Donor = $("#Donor_ID_loan").val() ||"";
+            var BudgetCode = $("#Budget_Code_loan").val() || "";
+            var CompanyID = $("#ddlCompany_loan").val() || "";
+            var rentTypeID = $("#ddlRentType_loan").val() || "";
+            if (Company == "" || StartDate == "" || EndDate == "" || StartODO == "" ||  Donor=="") {
+
+                return;
+            }
+
+            $('#tbl_Data_Loan').dataTable().fnAddData({
+                "rentCompany": Company,
+                "startDate": StartDate,
+                "endDate": EndDate,
+                "start_oDO": StartODO,
+                "end_oDO": EndODO,
+                "donor": Donor,
+                "budget_code": BudgetCode,
+                "rent_companyID": CompanyID,
+                "rent_typeID": rentTypeID,
+            });
+            $('#add-form #ddlCompany_loan').val('');
+            $('#add-form #StartDate_loan').val('');
+            $('#add-form #EndDate_loan').val('');
+            $('#add-form #End_ODO_loan').val('');
+            $('#add-form #Start_ODO_loan').val('');
+            $('#add-form #Donor_ID_loan').val('');
+            $('#add-form #Budget_Code_loan').val('');
+
+
+        }
+         function DeleteContract(eleVar, event) {
+            $.SmartMessageBox({
+                title: "@GetResource("Message.Gobal.Alert")",
+                content: "@GetResource("Message.Gobal.DeleteAlert")",
+                buttons: '[@GetResource("Label.Global.No")][@GetResource("Label.Global.Yes")]'
+            }, function (ButtonPressed) {
+                if (ButtonPressed === "@GetResource("Label.Global.Yes")") {
+                    var msg = '@GetResource("Messages.Global.DeleteSuccess")';
+                    var id = $(eleVar).attr('data-id');
+                 //showSmallBoxMsg('@GetResource("Menu.ID.118")',msg,@((int)AlertStatus.Success));
+
+                    $(eleVar).parent().find('.hidden-delete').click();
+
+                    return;
+
+                }
+                if (ButtonPressed === "@GetResource("Label.Global.No")") {
+                    return;
+                }
+            });
+            event.preventDefault();
+        }
+
+
+
+
+
+
+
+        function CheckFuel() {
+            var PowerValue = $("#ddlPower").val() || -1
+            if (PowerValue == 5) {
+                $("#FuelTypeDiv").hide()
+            }
+            else {
+                $("#FuelTypeDiv").show()
+            }
+        }
+
+
+
+        function GetModel() {
+
+            var eleChange = $('#ddlBrand');
+            var eleUpdate = $('#ddlModel');
+
+            $.ajax({
+                type: "post",
+                url: '@Url.Action("GetVehicleModels", "flt_Vehicle")',
+                ajaxasync: true,
+                data: { BrandID: $(eleChange).val() || -1 },
+                success: function (data) {
+
+                    $(eleUpdate).find('option').remove();
+                    $(eleUpdate).append('<option value="">@GetResource("Label.Global.Select")</option>');
+
+                    $.each(data, function (index) {
+                        var $option = $('<option>');
+
+                        $option
+                            .val(data[index].carModelID)
+                            .text(data[index].@GetCurrentBilingual("carModelNameL", "carModelNameF"));
+
+                        $(eleUpdate).append($option);
+                    });
+
+                    $(eleUpdate).val('').trigger('change');
+
+                },
+                error: function (data) {
+                }
+            })
+        }
+
+
+
+
+        /* Checking the ownership to view which tap  */
+        function CheckOwnerShip()
+        {
+            var Ownership_Value = $("#ddlOwnerShip").val() || -1
+            if (Ownership_Value==2 )
+            {
+                $("#Owned").show(100);
+                $("#Rental").hide(100);
+                $("#Loaned").hide(100);
+
+            }
+            if (Ownership_Value==3 )
+            {
+                $("#Rental").show(100);
+                $("#Owned").hide(100);
+                $("#Loaned").hide(100);
+
+
+
+
+            }
+            if (Ownership_Value == 4) {
+                $("#Rental").hide(100);
+                $("#Owned").hide(100);
+                $("#Loaned").show(100);
+
+
+
+
+            }
+
+        }
+
+
+
+
+
+
+
+        /* Getting the Currency and type */
+
+        function ChangeCurrencyLabelPerType() {
+            var CountryID = $("#ddlCountry-ID-Value").val() || -1;
+            var Type = $("#ddlRentType option:selected").text() || "Type";
+
+               $.ajax({
+            type: "post",
+            url: '@Url.Action("GetCurrency", "flt_Country")',
+            ajaxasync: true,
+            data: { CountryID: CountryID },
+            success: function (data) {
+                $(".CurrencyLabel").empty();
+                $(".CurrencyLabel").text(data + " /" + Type)
+
+                //$('#RentPrice').attr('placeholder', data + " /" + Type);
+
+            },
+
+        });
+    }
+            //var Currency_Name = $("#Currency").val();
+
+            //$("#CurrencyLabel").empty();
+            //$("#CurrencyLabel").append(Currency_Name + " / " + Type);
+
+            @*("#CurrencyLabel").text("يهص ص ");
+
+            @Html.Raw(GetResource("jk"))*@
+
+
+        $("#ddlCountry-ID-Value").change(function () {
+            ChangeCurrencyLabelPerType();
+        });
+    </script>
+
+
+}
